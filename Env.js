@@ -3,7 +3,7 @@ const env = {
         connectionString: ''
     },
     dev:{
-        connectionString: "mongodb+srv://sujitwarrier:HomeTest123@cluster0.esuaw.mongodb.net/HomeTest1?retryWrites=true&w=majority"
+        connectionString: "mongodb+srv://sujitwarrier:<PWD>@cluster0.esuaw.mongodb.net/<DB>?retryWrites=true&w=majority"
     }
 }
 
