@@ -7,33 +7,53 @@ var passport = require('passport');
 const path = require('path');
 
 require('./models/User');
+const psptConfig = require('./config/passport');
+
+const MongoClient = require('mongodb').MongoClient;
+const env = require('./Env');
+
+
 
 const isProd = process.env.NODE_ENV === 'prod';
 
+const uri = env.connectionString;
+console.log("url",uri)
+const client = new MongoClient(uri, { useNewUrlParser: true,  useMongoClient: true,
+  keepAlive: 1,
+  connectTimeoutMS: 30000,
+  reconnectTries: Number.MAX_VALUE,
+  reconnectInterval: 5000, });
 
+
+
+client.connect(err => {
+psptConfig(client);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(session({ secret: '4dfsdf$R$fdsf', cookie: { maxAge: 60000 }}));
 app.use(passport.initialize());
 app.use(passport.session());
-
-app.get("/",(req,res) =>{
+app.use(require('./routes')(client));
+app.get("/",(req,res) => {
     res.send("hello");
 });
-
-if(!isProd) {
-    app.use((err, req, res) => {
-      res.status(err.status || 500);
-  
-      res.json({
-        errors: {
-          message: err.message,
-          error: err,
-        },
-      });
-    });
-  }
-
-
-
 app.listen(port, ()=> console.log(`Server listening on port ${port}`));
+});
+
+
+
+
+// if(!isProd) {
+//     app.use((req, res) => {
+
+//       res.json({
+//         errors: {
+//           message: {},
+//           error: {},
+//         },
+//       });
+//     });
+//   }
+
+
+

@@ -1,15 +1,14 @@
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
-const MongoClient = require('mongodb').MongoClient;
-const env = require('../Env');
-
+const ObjectID = require('mongodb').ObjectID;
 
 class User {
-    constructor() {
+    constructor(client) {
         this.username = '';
         this.salt = '';
         this.hash = '';
         this._id = Math.random();
+        this.client = client;
     }
 
 
@@ -34,26 +33,80 @@ class User {
         }, 'secret');
     }
 
-     toJson(){
+    toJson() {
         return {
             _id: this._id,
             username: this.username,
             token: this.generateJWT(),
-          };
-     }
+        };
+    }
 
-     static findUser(username){
-         return new Promise((resolve,reject)=>{
-            const uri = env.connectionString;
-            const client = new MongoClient(uri, { useNewUrlParser: true });
-            client.connect(err => {
-              const collection = client.db("HomeTest1").collection("test1");
-              // perform actions on the collection object
-              const user = collection.find({ username });
-              client.close();
+    static findUser(username, client) {
+        return new Promise((resolve, reject) => {
+            const collection = client.db("HomeTest1").collection("test1");
+            // perform actions on the collection object
+            collection.findOne({ username }).then(user => {
+                console.log("user", user);
+                if (user) {
+                    const objUser = new User(client);
+                    objUser.username = user.username;
+                    objUser.salt = user.salt;
+                    objUser.hash = user.hash;
+                    objUser._id = user._id;
+                    resolve(objUser);
+                } else {
+                    reject({});
+                }
             });
-         });
-     }
+        });
+    }
+
+
+    static findById(id, client) {
+        return new Promise((resolve, reject) => {
+            const collection = client.db("HomeTest1").collection("test1");
+            // perform actions on the collection object
+            collection.findOne({ _id: ObjectID(id) }).then(user => {
+                console.log("user", user);
+                if (user) {
+                    const objUser = new User(client);
+                    objUser.username = user.username;
+                    objUser.salt = user.salt;
+                    objUser.hash = user.hash;
+                    resolve(objUser);
+                } else {
+                    reject({});
+                }
+            });
+        });
+    }
+
+    static getUserObject(objUsr, client) {
+        const objUser = new User();
+        objUser.username = objUsr.username;
+        objUser.setPassword(objUsr.password);
+        objUser.client = client;
+        return objUser;
+    }
+
+    save() {
+        const ths = this;
+        return new Promise((resolve, reject) => {
+            const collection = this.client.db("HomeTest1").collection("test1");
+            const user = collection.find({ username: "test" });
+            console.log("user", user);
+            collection.insertOne({ username: this.username, salt: this.salt, hash: this.hash }, function (err, docsInserted) {
+                console.log("docsInserted", docsInserted);
+                if (err) {
+                    console.log("error", err);
+                    reject(err);
+                }
+                ths._id = docsInserted.insertedId;
+                resolve(docsInserted);
+            });
+
+        });
+    }
 }
 
 module.exports = User;
