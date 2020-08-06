@@ -1,12 +1,11 @@
 import React from 'react';
+import Flex from '@root/src/Components/Flex';
 
 const Root = () => {
-
-
-    return <div>
+    return <Flex width="100%" height="100%" flexDirection="column" bg="bgBlue">
         <h1>Register</h1>
         <button onClick={()=> alert('clicked!!!!')}>Click!!!</button>
-    </div>
+    </Flex>
 }
 
 export default Root;

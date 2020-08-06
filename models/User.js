@@ -9,6 +9,8 @@ class User {
         this.hash = '';
         this._id = Math.random();
         this.client = client;
+        this.firstName = '';
+        this.lastName = '';
     }
 
 
@@ -52,6 +54,8 @@ class User {
                     objUser.username = user.username;
                     objUser.salt = user.salt;
                     objUser.hash = user.hash;
+                    objUser.firstName = user.firstName;
+                    objUser.lastName = user.lastName;
                     objUser._id = user._id;
                     resolve(objUser);
                 } else {
@@ -73,6 +77,9 @@ class User {
                     objUser.username = user.username;
                     objUser.salt = user.salt;
                     objUser.hash = user.hash;
+                    objUser.firstName = user.firstName;
+                    objUser.lastName = user.lastName;
+                    objUser._id = user._id;
                     resolve(objUser);
                 } else {
                     reject({});
@@ -95,7 +102,7 @@ class User {
             const collection = this.client.db("HomeTest1").collection("test1");
             const user = collection.find({ username: "test" });
             console.log("user", user);
-            collection.insertOne({ username: this.username, salt: this.salt, hash: this.hash }, function (err, docsInserted) {
+            collection.insertOne({ username: this.username, salt: this.salt, hash: this.hash, firstName: this.firstName, lastName: this.lastName }, function (err, docsInserted) {
                 console.log("docsInserted", docsInserted);
                 if (err) {
                     console.log("error", err);
