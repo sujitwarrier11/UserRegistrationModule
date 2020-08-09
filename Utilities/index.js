@@ -1,14 +1,38 @@
 
 const theme = {
     color: {
-        bgBlue: '#2c6ed5'
+        bgBlue: '#2c6ed5',
+        textBlack: '#222'
+    },
+    textStyles: {
+        normal: {
+            fontSize: '14px',
+            lineHeight: 1.8,
+            color: '#222',
+            fontWeight: 400,
+            fontFamily: 'Montserrat'
+        },
+        header: {
+            lineHeight: 1.66,
+            fontWeight: 900,
+            color: '#222',
+            fontFamily: 'Montserrat',
+            fontSize: '24px',
+            textTransform: 'uppercase',
+            textAlign: 'center'
+        }
     }
 }
 
 const checkStyle = (style, key, breakpointNo, objStyle) => {
     if (style) {
-        if (Array.isArray(style) && style[breakpointNo]) {
-            objStyle[key] = style[breakpointNo];
+        if (Array.isArray(style)) {
+            if (style[breakpointNo]) {
+                objStyle[key] = style[breakpointNo];
+            }
+            else {
+                objStyle[key] = style[style.length - 1];
+            }
         }
         else {
             objStyle[key] = style
@@ -17,7 +41,7 @@ const checkStyle = (style, key, breakpointNo, objStyle) => {
     return objStyle;
 }
 
-export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, px, py, mt, mb, mr, ml, mx, my, alignItems, justifyContent, bg }, breakpointNo, isFlex) => {
+export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, px, py, mt, mb, mr, ml, mx, my, m, p, alignItems, justifyContent, bg, r, backgroundImage }, breakpointNo, isFlex) => {
     let objStyle = {
         boxSizing: 'border-box'
     };
@@ -37,7 +61,7 @@ export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, p
     }
     if (py) {
         objStyle = checkStyle(py, 'paddingTop', breakpointNo, objStyle);
-        objStyle = checkStyle(py, 'paddingTop', breakpointNo, objStyle);
+        objStyle = checkStyle(py, 'paddingBottom', breakpointNo, objStyle);
     }
     objStyle = checkStyle(mr, 'marginRight', breakpointNo, objStyle);
     objStyle = checkStyle(ml, 'marginLeft', breakpointNo, objStyle);
@@ -53,10 +77,18 @@ export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, p
     }
     objStyle = checkStyle(alignItems, 'alignItems', breakpointNo, objStyle);
     objStyle = checkStyle(justifyContent, 'justifyContent', breakpointNo, objStyle);
+    objStyle = checkStyle(p, 'padding', breakpointNo, objStyle);
+    objStyle = checkStyle(m, 'margin', breakpointNo, objStyle);
+    objStyle = checkStyle(r, 'borderRadius', breakpointNo, objStyle);
     if (bg) {
         const color = theme.color[bg] || bg;
         objStyle = checkStyle(color, 'backgroundColor', breakpointNo, objStyle);
     }
+    if(backgroundImage){
+        const bgImage = `url(${backgroundImage})`;
+        objStyle = checkStyle(bgImage, 'backgroundImage', breakpointNo, objStyle);
+    }
     return objStyle;
 }
 
+export const getTextStyles = variant => theme.textStyles[variant] || theme.textStyles['normal'];

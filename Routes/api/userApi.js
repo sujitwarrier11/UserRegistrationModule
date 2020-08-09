@@ -35,7 +35,7 @@ module.exports = function(client){
     const { body: { user } } = req;
   
     if(!user.username) {
-      return res.status(422).json({
+      return res.status(200).json({
         errors: {
           username: 'is required',
         },
@@ -43,7 +43,7 @@ module.exports = function(client){
     }
   
     if(!user.password) {
-      return res.status(422).json({
+      return res.status(200).json({
         errors: {
           password: 'is required',
         },
@@ -53,7 +53,7 @@ module.exports = function(client){
     return passport.authenticate('local', { session: false }, (err, passportUser, info) => {
       console.log("error",err);
       if(err) {
-        res.status(401);
+        res.status(200);
         res.json(err);
       }
   
@@ -69,20 +69,13 @@ module.exports = function(client){
   });
   
   
-  router.get('/current', auth.required, (req, res, next) => {
-    const { payload: { id } } = req;
-  
-    return User.findById(id, client)
-      .then((user) => {
-        if(!user) {
-          return res.sendStatus(401);
-        }
-  
-        return res.json({ user: user.toJson() });
-      }).catch(err =>{
-        return res.sendStatus(401);
-      });
-  });
+ 
+
+  router.get('/test',auth.optional, (req,res,next) => {
+    res.json({
+      success: true
+    })
+  })
 
   return router;
 };

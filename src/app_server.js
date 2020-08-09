@@ -1,15 +1,38 @@
 import React from 'react';
 import ReactDOMServer from 'react-dom/server';
 import express from 'express';
-import Root from './Pages/Root';
+import Routes from './Routes';
+import createReducer from '@root/src/Redux/reducer';
+import logger from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware } from 'redux';
+import { StaticRouter, Switch, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { ServerStyleSheets, ThemeProvider } from '@material-ui/core/styles';
+import theme from '@root/src/theme';
+import "regenerator-runtime/runtime";
+import "core-js/stable";
+
+
+
+
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = [sagaMiddleware, logger];
+const store = createStore(createReducer({}),
+    applyMiddleware(...middleware));
 
 const window = {};
 
 const router = express.Router();
  function main(){
-    router.get('/', (req, res) => {
-        const app = ReactDOMServer.renderToString(<Root />);
-  console.log("app", app);
+    router.get('*', (req, res) => {
+
+         const sheets = new ServerStyleSheets();
+        const app = ReactDOMServer.renderToString(sheets.collect(<ThemeProvider theme={theme}><Provider store={store}><StaticRouter location={req.url}> <Switch>
+           <Routes />
+      </Switch></StaticRouter></Provider></ThemeProvider>));
+      const css = sheets.toString();
         res.send(`<html>
     <head>
     <title>Home Test</title>
@@ -17,9 +40,8 @@ const router = express.Router();
     name="viewport"
     content="width=device-width,minimum-scale=1,initial-scale=1"
      />
+     <style>${css}</style>
     <script src="/dist/client.js" defer></script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
     <style>
     html, body, p, div, h1, h2, h3, h4, h5, h6, ul, ol, dl, img, pre, form, fieldset {
       padding: 0;

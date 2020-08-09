@@ -11,11 +11,15 @@ passport.use(new LocalStrategy({
     Users.findUser(username, client)
       .then(user => {
         if(!user || !user.validatePassword(password)) {
-          return done({ errors: { 'email or password': 'is invalid' } }, false);
+          return done({ errors: { 
+             description: 'username or password is invalid'
+           } }, false);
         }
         return done(null, user);
       }).catch(error =>{
-        done({ errors: { 'email or password': 'is invalid' } }, false);
+        done({ errors: { 
+          description: 'username or password is invalid'
+        } }, false);
       });
   }));
 }

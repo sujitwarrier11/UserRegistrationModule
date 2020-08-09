@@ -39,7 +39,6 @@ export const useBreakpoints = () => {
 
 const Breakpoints = ({ children, ...extra }) => {
   const { breakSize } = useBreakpoints();
-  console.log("breakSize",breakSize);
   return <>{extra[breakSize || 'lg'] && children}</>;
 };
 
