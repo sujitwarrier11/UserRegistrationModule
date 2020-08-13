@@ -2,7 +2,9 @@
 const theme = {
     color: {
         bgBlue: '#2c6ed5',
-        textBlack: '#222'
+        textBlack: '#222',
+        error: '#f44336',
+        success: '#4caf50'
     },
     textStyles: {
         normal: {
@@ -10,16 +12,22 @@ const theme = {
             lineHeight: 1.8,
             color: '#222',
             fontWeight: 600,
-            fontFamily: 'Montserrat'
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
         },
         header: {
             lineHeight: 1.66,
             fontWeight: 900,
             color: '#222',
-            fontFamily: 'Montserrat',
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
             fontSize: '24px',
             textTransform: 'uppercase',
             textAlign: 'center'
+        },
+        status: {
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+            lineHeight: 1.43,
+            fontSize: '0.875rem',
+            color: '#fff',
         }
     }
 }
@@ -41,7 +49,7 @@ const checkStyle = (style, key, breakpointNo, objStyle) => {
     return objStyle;
 }
 
-export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, px, py, mt, mb, mr, ml, mx, my, m, p, alignItems, justifyContent, bg, r, backgroundImage }, breakpointNo, isFlex) => {
+export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, px, py, mt, mb, mr, ml, mx, my, m, p, alignItems, justifyContent, bg, r, backgroundImage , position,style }, breakpointNo, isFlex) => {
     let objStyle = {
         boxSizing: 'border-box'
     };
@@ -88,7 +96,11 @@ export const getStyle = ({ flexDirection, flex, width, height, pr, pl, pt, pb, p
         const bgImage = `url(${backgroundImage})`;
         objStyle = checkStyle(bgImage, 'backgroundImage', breakpointNo, objStyle);
     }
-    return objStyle;
+    objStyle = checkStyle(position, 'position', breakpointNo, objStyle);
+    return {
+        ...style,
+        ...objStyle
+    };
 }
 
 export const getTextStyles = variant => theme.textStyles[variant] || theme.textStyles['normal'];

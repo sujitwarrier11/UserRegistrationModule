@@ -1,5 +1,6 @@
-import React from 'react';
-import { Flex, Box, TextType, TextField, Button } from '@root/src/Components/Atoms';
+import React,{ useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { Flex, Box, TextType, TextField, Button, Snackbar } from '@root/src/Components/Atoms';
 import withAuth from '@root/src/Components/withAuth';
 import { Form, Field } from 'react-final-form';
 import { useDispatch } from 'react-redux';
@@ -9,10 +10,19 @@ import { withRouter } from 'react-router-dom';
 
 const Login = () => {
     const dispatch = useDispatch();
+    const { error } = useSelector(state => state.user);
+    const [openSnackbar ,setSnackBarStatus] = useState(false);
 
     const handleSubmit = values => {
         dispatch(login({ ...values }));
     }
+
+    useEffect(()=>{
+        if(error){
+            console.log("error",error)
+            setSnackBarStatus(true);
+        }
+    },[error]);
 
     const isRequired = value => value ? undefined : '* Required';
 
@@ -56,6 +66,7 @@ const Login = () => {
                 }} />
 
         </Box>
+        <Snackbar open={openSnackbar} snackbarText={error && error.description} variant="error" onClose={() => setSnackBarStatus(false)}  />
     </Flex>
 }
 

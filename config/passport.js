@@ -23,3 +23,13 @@ passport.use(new LocalStrategy({
       });
   }));
 }
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id); 
+});
+
+// used to deserialize the user
+passport.deserializeUser(function(id, done) {
+  Users.findById(id, client)
+      .then(user =>done(undefined, user)).catch(err => done(err));
+});

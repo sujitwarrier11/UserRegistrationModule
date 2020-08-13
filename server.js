@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const bodyParser = require('body-parser');
 var session = require('express-session');
 var passport = require('passport');
+const fileUpload = require('express-fileupload');
 const path = require('path');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const configServerDev = require('./webpack.server.dev.config');
@@ -49,6 +50,9 @@ client.connect(err => {
   console.log("path.join(__dirname, 'public')", path.join(__dirname, 'public'))
   app.use(express.static('public'));
   app.use(bodyParser.json());
+  app.use(fileUpload({
+    createParentPath: true
+  }));
   app.use(session({ secret: '4dfsdf$R$fdsf', cookie: { maxAge: 60000 } }));
   app.use(passport.initialize());
   app.use(passport.session());

@@ -100,6 +100,8 @@ class User {
         objUser.username = objUsr.username;
         objUser.setPassword(objUsr.password);
         objUser.client = client;
+        objUser.firstName = objUsr.firstName;
+        objUsr.lastName = objUsr.lastName;
         return objUser;
     }
 

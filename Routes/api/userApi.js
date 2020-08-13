@@ -2,6 +2,7 @@ const passport = require('passport');
 const router = require('express').Router();
 const auth = require('../auth');
 const User = require('../../models/User');
+const fs = require('fs');
 
 module.exports = function(client){
 
@@ -75,6 +76,10 @@ module.exports = function(client){
     res.json({
       success: true
     })
+  });
+
+  router.post('/upload',auth.required, (req,res, next) => {
+    const { body: { file } } = req;
   })
 
   return router;
