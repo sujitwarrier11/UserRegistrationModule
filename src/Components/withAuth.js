@@ -11,11 +11,11 @@ const withAuth = Comp => {
 
         const arrEclusions = [
             { url: '/api/login', type: 'all' },
-            { url: '/api/regUser', type: 'all' }
+            { url: '/api/register', type: 'all' }
           ];
     
           const GetHeaders = (Headers, url) => {
-            const objHeaders = {};
+            let objHeaders = {};
             if (
               arrEclusions.filter(
                 item => item.url === url.replace(window.location.origin, '') && item.type === 'all'

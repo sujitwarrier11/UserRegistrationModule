@@ -1,7 +1,8 @@
-import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE } from '@root/src/Redux/constants';
+import { LOGIN, LOGIN_SUCCESS, LOGIN_FAILURE, CALL_REGISTER } from '@root/src/Redux/constants';
 
 const reducer = (state = {}, action) => { 
    switch(action.type){
+      case CALL_REGISTER:
       case LOGIN: return state;
       case LOGIN_SUCCESS: return {
           ...state,

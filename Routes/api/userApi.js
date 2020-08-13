@@ -5,7 +5,7 @@ const User = require('../../models/User');
 
 module.exports = function(client){
 
-  router.post('/regUser', auth.optional, (req, res, next) => {
+  router.post('/register', auth.optional, (req, res, next) => {
     const { body: { user } } = req;
      console.log("called reg",user);
     if(!user.username) {

@@ -4,4 +4,5 @@ export const LOGIN_FAILURE = 'LOGIN_FAILURE';
 export const CALL_UPLOAD = 'CALL_UPLOAD';
 export const UPLOAD_SUCCESS = 'UPLOAD_SUCCESS';
 export const UPLOAD_FAILURE = 'UPLOAD_FAILURE';
+export const CALL_REGISTER = 'CALL_REGISTER';
 

@@ -6,10 +6,10 @@ const theme = {
     },
     textStyles: {
         normal: {
-            fontSize: '14px',
+            fontSize: '20px',
             lineHeight: 1.8,
             color: '#222',
-            fontWeight: 400,
+            fontWeight: 600,
             fontFamily: 'Montserrat'
         },
         header: {

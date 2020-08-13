@@ -45,6 +45,7 @@ class User {
 
     static findUser(username, client) {
         return new Promise((resolve, reject) => {
+
             const collection = client.db("HomeTest1").collection("test1");
             // perform actions on the collection object
             collection.findOne({ username }).then(user => {
@@ -61,6 +62,9 @@ class User {
                 } else {
                     reject({});
                 }
+            }).catch(error => {
+                console.log("error promise",error);
+                reject(error);
             });
         });
     }
@@ -84,6 +88,9 @@ class User {
                 } else {
                     reject({});
                 }
+            }).catch(error => {
+                console.log("error promise",error);
+                reject(error);
             });
         });
     }
@@ -108,8 +115,10 @@ class User {
                     console.log("error", err);
                     reject(err);
                 }
+                else{
                 ths._id = docsInserted.insertedId;
                 resolve(docsInserted);
+                }
             });
 
         });

@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import Login from '@root/src/Pages/Login';
+import Register from '@root/src/Pages/Register';
 import { Route, withRouter,useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 
@@ -16,7 +17,8 @@ const Routes = props => {
    
     return <>
     <Route exact path="/" component={Login} />
-    <Route path="/register" component={() => <div>Register</div>} />
+    <Route path="/register" component={Register} />
+    <Route path="/profile" component={() => <div>Profile</div>} />
     </>
 }
 

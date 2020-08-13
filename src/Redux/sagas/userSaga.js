@@ -19,7 +19,26 @@ export function* login({ payload }) {
     }
     else {
         yield put(setLoginData(response.data.user));
-        yield put(push('/register'));
+        yield put(push('/profile'));
+    }
+
+}
+
+
+export function* register({ payload }) {
+    const response = yield httpRequest({
+        method: 'POST',
+        url: `/api/register`,
+        data: { user: { ...payload } },
+        headers: {}
+    });
+    console.log("response", response);
+    if (response.data.errors) {
+        yield put(setLoginError(response.data.errors));
+    }
+    else {
+        yield put(setLoginData(response.data.user));
+        yield put(push('/profile'));
     }
 
 }

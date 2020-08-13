@@ -1,4 +1,4 @@
-import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS } from '@root/src/Redux/constants';
+import { LOGIN, LOGIN_FAILURE, LOGIN_SUCCESS, CALL_REGISTER } from '@root/src/Redux/constants';
 
 export const login = payload => {
     return {
@@ -23,30 +23,11 @@ export const setLoginError = payload => {
 
 
 
-export const getDetails = payload => {
+export const callRegister = payload => {
     return {
-        type: GET_DETAILS,
+        type: CALL_REGISTER,
         payload
     }
 }
 
-export const setDetails = payload => {
-    return {
-        type: SET_DETAILS,
-        payload
-    }
-}
 
-export const setSelectedShow = payload => {
-    return {
-        type: SET_SELECTED_SHOW,
-        payload
-    }
-}
-
-export const setPage = payload => {
-    return {
-        type: SAVED_PAGES,
-        payload
-    }
-}
