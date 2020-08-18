@@ -10,7 +10,7 @@ const Flex = props => {
         
      const sizes = ['xs','sm','md','lg'];
 
-    return  <div style={getStyle(props, sizes.indexOf(breakSize || 'lg'), true)}>{props && props.children}</div>;
+    return  <div {...props} style={getStyle(props, sizes.indexOf(breakSize || 'lg'), true)}>{props && props.children}</div>;
       
 }
 

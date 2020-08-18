@@ -10,7 +10,7 @@ const Box = props => {
         
     const sizes = ['xs','sm','md','lg'];
 
-   return  <div style={getStyle(props, sizes.indexOf(breakSize || 'lg'))}>{props && props.children}</div>;
+   return  <div {...props} style={getStyle(props, sizes.indexOf(breakSize || 'lg'))}>{props && props.children}</div>;
 };
 
 export default Box;

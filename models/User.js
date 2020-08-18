@@ -98,10 +98,12 @@ class User {
     static getUserObject(objUsr, client) {
         const objUser = new User();
         objUser.username = objUsr.username;
-        objUser.setPassword(objUsr.password);
+        if(objUsr.password){
+          objUser.setPassword(objUsr.password);
+        }
         objUser.client = client;
         objUser.firstName = objUsr.firstName;
-        objUsr.lastName = objUsr.lastName;
+        objUser.lastName = objUsr.lastName;
         return objUser;
     }
 

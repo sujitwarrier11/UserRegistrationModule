@@ -8,10 +8,10 @@ const theme = {
     },
     textStyles: {
         normal: {
-            fontSize: '20px',
+            fontSize: '14px',
             lineHeight: 1.8,
             color: '#222',
-            fontWeight: 600,
+            fontWeight: 300,
             fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
         },
         header: {
