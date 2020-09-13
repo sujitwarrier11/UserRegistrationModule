@@ -45,9 +45,7 @@ app.use(webpackDevMiddleware(compiler, {
 
 
 client.connect(err => {
-  psptConfig(client);
-  console.log("require('./public/dist/server')", require('./public/dist/server'))
-  console.log("path.join(__dirname, 'public')", path.join(__dirname, 'public'))
+  psptConfig(passport, client);
   app.use(express.static('public'));
   app.use(bodyParser.json());
   app.use(fileUpload({

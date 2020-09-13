@@ -47,7 +47,7 @@ const withAuth = Comp => {
           );
 
 
-          return <Comp {...props} />
+          return <Comp {...props} isAuthorised={!!token} />
     }
 
 };

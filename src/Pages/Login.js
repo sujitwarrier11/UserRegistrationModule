@@ -1,7 +1,6 @@
 import React,{ useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { Flex, Box, TextType, TextField, Button, Snackbar } from '@root/src/Components/Atoms';
-import withAuth from '@root/src/Components/withAuth';
 import { Form, Field } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { login } from '@root/src/Redux/ActionCreators';
@@ -70,4 +69,4 @@ const Login = () => {
     </Flex>
 }
 
-export default withRouter(withAuth(Login));
+export default withRouter(Login);

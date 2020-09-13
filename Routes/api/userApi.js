@@ -3,6 +3,8 @@ const router = require('express').Router();
 const auth = require('../auth');
 const User = require('../../models/User');
 const fs = require('fs');
+const { v4: uuid } = require('uuid');
+const path = require('path');
 
 module.exports = function(client){
 
@@ -59,10 +61,19 @@ module.exports = function(client){
       }
   
       if(passportUser) {
-        const user = passportUser;
-        user.token = passportUser.generateJWT();
+        req.login(passportUser, errObj => {
+          if(!errObj){
+            const user = passportUser;
+            user.token = passportUser.generateJWT();
+            return res.json({ user: user.toJson() });
+          }
+          else{
+            res.status(200);
+            res.json(errObj);
+          }
+        })
   
-        return res.json({ user: user.toJson() });
+       
       }
   
       
@@ -79,8 +90,47 @@ module.exports = function(client){
   });
 
   router.post('/upload',auth.required, (req,res, next) => {
-    const { body: { file } } = req;
-  })
+      const user = req.user;
+      const { file } = req.body;
+      if(file){
+      console.log("file",file)
+      const extension = file.name.split('.')[1];
+      var bitmap = new Buffer(file.image,'base64');
+      const fileName = `${uuid()}.${extension}`
+      fs.writeFile(path.join(__dirname, `../../public/${fileName}`),bitmap,(errObj)=>{
+        if(errObj){
+          res.json({
+            error: 'could not save.'
+          })
+        }
+        console.log("inside write")
+        const objUser = User.getUserObject(user,client);
+        objUser.UpdateFiles({
+          fileName,
+          displayName: file.name
+        }).then(files =>{
+          res.json({
+            files
+          })
+        }).catch(err => res.json(err));
+      });
+    }
+    else{
+      res.json({
+        error: 'something went wrong.'
+      })
+    }
+  });
+
+  router.post('/getFiles',auth.required, (req,res, next) => {
+    const user = req.user;
+    const objUser = User.getUserObject(user,client);
+    objUser.GetFiles().then(files =>{
+      res.json({
+        files
+      })
+    }).catch(err => res.json(err));
+  });
 
   return router;
 };

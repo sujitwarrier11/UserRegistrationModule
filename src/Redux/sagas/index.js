@@ -1,11 +1,13 @@
 import { takeLatest, all,takeEvery } from 'redux-saga/effects';
-import { LOGIN, CALL_REGISTER } from '@root/src/Redux/constants';
-import { login, register } from '@root/src/Redux/sagas/userSaga';
+import { LOGIN, CALL_REGISTER, UPLOAD_FILE, GET_FILES } from '@root/src/Redux/constants';
+import { login, register, uploadFile, getFiles } from '@root/src/Redux/sagas/userSaga';
 import "regenerator-runtime/runtime";
 
 export default function* root() {
     yield all([
-        takeEvery(LOGIN, login),
-        takeEvery(CALL_REGISTER,register)
+        takeLatest(LOGIN, login),
+        takeLatest(CALL_REGISTER, register),
+        takeLatest(UPLOAD_FILE, uploadFile),
+        takeLatest(GET_FILES, getFiles)
     ]);
 }

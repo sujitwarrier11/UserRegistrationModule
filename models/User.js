@@ -11,6 +11,7 @@ class User {
         this.client = client;
         this.firstName = '';
         this.lastName = '';
+        this.files = [];
     }
 
 
@@ -69,6 +70,55 @@ class User {
         });
     }
 
+    UpdateFiles(filePath){
+        const ths = this;
+        return new Promise((resolve, reject) => {
+            const collection = ths.client.db("HomeTest1").collection("test1");
+            console.log("user",ths._id);
+            collection.findOne({ _id: ObjectID(ths._id) }).then(user => {
+                console.log("user", user);
+                if (user) {
+                    const fileCollection = user.files || [];
+                    console.log("fc",fileCollection);
+
+                    collection.update(  { _id: ObjectID(ths._id)} , { $set: { files : [...fileCollection, filePath]  } } );
+                    resolve([...fileCollection, filePath]);
+                } else {
+                    reject({
+                        error: 'user not found.'
+                    });
+                }
+            }).catch(error => {
+                console.log("error promise",error);
+                reject(error);
+            });
+            
+        });
+    }
+
+    GetFiles(){
+        const ths = this;
+        return new Promise((resolve, reject) => {
+            const collection = ths.client.db("HomeTest1").collection("test1");
+            console.log("user",ths._id);
+            collection.findOne({ _id: ObjectID(ths._id) }).then(user => {
+                console.log("user", user);
+                if (user) {
+                    const fileCollection = user.files || [];
+                    resolve(fileCollection);
+                } else {
+                    reject({
+                        error: 'user not found.'
+                    });
+                }
+            }).catch(error => {
+                console.log("error promise",error);
+                reject(error);
+            });
+            
+        });
+    }
+
 
     static findById(id, client) {
         return new Promise((resolve, reject) => {
@@ -104,6 +154,7 @@ class User {
         objUser.client = client;
         objUser.firstName = objUsr.firstName;
         objUser.lastName = objUsr.lastName;
+        objUser._id = objUsr._id;
         return objUser;
     }
 

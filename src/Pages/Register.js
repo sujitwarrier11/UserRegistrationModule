@@ -1,6 +1,5 @@
 import React from 'react';
 import { Flex, Box, TextType, TextField, Button } from '@root/src/Components/Atoms';
-import withAuth from '@root/src/Components/withAuth';
 import { Form, Field } from 'react-final-form';
 import { useDispatch } from 'react-redux';
 import { callRegister } from '@root/src/Redux/ActionCreators';
@@ -92,4 +91,4 @@ const Register = () => {
     </Flex>
 }
 
-export default withRouter(withAuth(Register));
+export default withRouter(Register);

@@ -28,7 +28,15 @@ const theme = {
             lineHeight: 1.43,
             fontSize: '0.875rem',
             color: '#fff',
+        },
+        link: {
+            fontSize: '14px',
+            lineHeight: 1.8,
+            color: '#0000EE',
+            fontWeight: 300,
+            fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif'
         }
+
     }
 }
 
