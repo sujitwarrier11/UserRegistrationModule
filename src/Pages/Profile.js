@@ -96,6 +96,7 @@ const Profile = () => {
                 </ul>
             </Flex>
         </Box>
+        {console.log("curDoc",currDoc)}
        <Box>
 
        </Box>
